@@ -29,16 +29,28 @@ example.
     ├───routes
     └───utils
 
-```
 
 ```
-npm init
-```
+
+1.
 
 ```
 npx knex migrate:make create_users_table
 ```
 
 ```
+npx knex seed:make users_seed
+```
+
+2.
+
+```
 npx knex migrate:latest
 ```
+
+```
+npx knex seed:run
+```
+
+
+
