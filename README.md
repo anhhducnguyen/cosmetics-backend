@@ -1,3 +1,4 @@
+```
 example.
 │   .env
 │   .gitignore
@@ -27,6 +28,8 @@ example.
     ├───public
     ├───routes
     └───utils
+
+```
 
 ```
 npm init
