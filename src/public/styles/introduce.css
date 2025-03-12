@@ -1,0 +1,180 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif; 
+}
+
+a{
+    color: white;
+    text-decoration: none;
+}
+
+.content{
+    /* display: flex; */
+    margin-left: 240px;
+}
+
+.content-left{
+    width: 615px;
+    height: 510px;
+    padding: 30px 15px;
+}
+
+.content-right{
+    width: 615px;
+    height: 510px;
+    padding: 30px 15px;
+}
+
+#title{
+    font-size: 25.6px;
+    font-weight: 700;
+    line-height: 33.28px;
+    margin-bottom: 12px;
+}
+
+.content-left p{
+    line-height: 26px;
+    margin-bottom: 20px;
+}
+
+.content-right>form>label{
+    
+    font-size: 14.4px;
+    font-weight: 700;
+    line-height: 23px;
+
+}
+
+.content-right>form>input[type="text"]{
+    width: 558px;
+    height: 35px;
+    margin-bottom: 13px;
+}
+
+.content-right>form>textarea{
+    width: 558px;
+    height: 120px;
+    margin-bottom: 13px;
+}
+
+.content-right>form>input[type="submit"]{
+    width: 64px;
+    height: 39px;
+    background-color: #19523e;
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;  
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+.body-introduce{
+    width: 1200px;
+    margin: 0 auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 40px;
+}
+
+.body-introduce p {
+    text-align: justify;
+}
+
+.lazy-load{
+    width: 800px;
+    height: 600px;
+}
+
+.img {
+    display: flex;
+    justify-content: center;
+}
+
+.row{
+    display: flex;
+    justify-content: space-around;
+}
+
+.col-inner {
+    flex-basis: 21%;
+}
+
+.ll {
+    color: #0b8b53;
+}
+
+.li-content {
+    margin-left: 25px;
+}
+
+.li-content li {
+    text-align: justify;
+}
+
+
+h3, h3>strong{
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 32px;
+    margin: 0px 0px 10px;
+    color: #333333;
+    font-family: 'Roboto', sans-serif;
+}
+
+.body-introduce p{
+    line-height: 25.6px;
+    margin: 0px 0px 20.8px;
+    color: #333333;
+}
+
+.body-introduce>ul>li{
+    margin-bottom: 10px;
+}
+
+.footer-box1>ul>li>a>i{
+    margin-right: 5px;
+}
+
+.df{
+    text-align: center;
+}
+
+.df p{
+    font-weight: 700;
+    font-style: italic;
+}
+
+.img>a>img{
+    width: 800px;
+    height: 600px;
+}
+
+.df>a>img{
+    width: 339px;
+    height: 427px;
+}
+
+.logo-intro {
+    width: 1200px;
+    height: 1200px;
+}
+
+
+@media only screen and (max-width: 46.1875em) {
+    .body-introduce{
+        width: 100%;
+    }
+}

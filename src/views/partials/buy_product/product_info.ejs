@@ -1,0 +1,28 @@
+<div class="buy-product-main-right">
+    <div class="buy-product-main-right-title">
+        <div class="buy-product-main-right-title-main">
+            <a href="">
+                <h1><%= product.name %></h1>
+            </a>
+        </div>
+        <div class="buy-product-main-right-title-info">
+            <span>Serum Caryophy Portulaca Ampoule là sản phẩm gì?</span>
+            <p><i class="fa-solid fa-check fa-xl" style="color: #15602f;"></i><span><%= product.name %></span> là <%= product.description %></p>
+            <span>Serum Caryophy Portulaca Ampoule dành cho da nào phù hợp?</span>
+            <p><i class="fa-solid fa-check fa-xl" style="color: #15602f;"></i><span><%= product.name %></span> <%= product.suitability %></p>
+        </div>
+    </div>
+    <div class="box-price">
+        <p><i class="fa-solid fa-hand-point-right fa-2xs" style="color: #165615;"></i>Giá gốc: <%= product.originalPrice.toLocaleString('vi-VN') %></p>
+        <p><i class="fa-solid fa-hand-point-right fa-2xs" style="color: #165615;"></i>Giảm giá: <%= product.discount %></p>
+        <p class="box-text">Giá bán:<span> <%= product.discountedPrice.toLocaleString('vi-VN') %></span></p>
+    </div>
+    <%- include('information') %>
+    <div class="cartt">
+        <button class="decrease" onclick="decreaseQuantity()">-</button>
+        <input class="quantity" type="number" value="1" min="1">
+        <button class="increase" onclick="increaseQuantity()">+</button>
+        <button class="add-to-cart" onclick="addToCart()">Thêm vào giỏ hàng</button>
+    </div>
+    <%- include('social') %>
+</div>

@@ -1,6 +1,6 @@
 const db = require('../config/database');
 
-class UserService {
+class OrderdetailService {
     static async getAll() {
         return db("users").select("*");
     }
@@ -22,4 +22,4 @@ class UserService {
     }
 }
 
-module.exports = UserService;
+module.exports = OrderdetailService;

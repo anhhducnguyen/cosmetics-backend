@@ -1,7 +1,7 @@
 const BaseController = require('./base.controllers');
-const Service = require('../services/user.services');
+const Service = require('../services/orders.services');
 
-class UserController extends BaseController {
+class OrderController extends BaseController {
     static async getAll(req, res) {
         try {
             const data = await Service.getAll();
@@ -53,4 +53,4 @@ class UserController extends BaseController {
     };
 }
 
-module.exports = UserController;
+module.exports = OrderController;

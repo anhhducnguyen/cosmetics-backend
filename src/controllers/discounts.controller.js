@@ -1,7 +1,7 @@
-const BaseController = require('./base.controllers');
-const Service = require('../services/user.services');
+const BaseController = require("./base.controllers");
+const Service = require('../services/discounts.services');
 
-class UserController extends BaseController {
+class Discount extends BaseController{
     static async getAll(req, res) {
         try {
             const data = await Service.getAll();
@@ -10,7 +10,7 @@ class UserController extends BaseController {
         } catch (error) {
             return BaseController.errorResponse(res, error);
         }
-    };
+    }
 
     static async getById(req, res) {
         try {
@@ -20,7 +20,7 @@ class UserController extends BaseController {
         } catch (error) {
             return BaseController.errorResponse(res, error);
         }
-    };
+    }
 
     static async create(req, res) {
         try {
@@ -30,7 +30,7 @@ class UserController extends BaseController {
         } catch (error) {
             return BaseController.errorResponse(res, error);
         }
-    };
+    }
 
     static async update(req, res) {
         try {
@@ -40,17 +40,17 @@ class UserController extends BaseController {
         } catch (error) {
             return BaseController.errorResponse(res, error);
         }
-    };
+    }
 
     static async delete(req, res) {
         try {
             const data = await Service.delete(req.params.id);
-
+            
             return BaseController.successResponse(res, data, 'Delete successfully');
         } catch (error) {
             return BaseController.errorResponse(res, error);
         }
-    };
+    }
 }
 
-module.exports = UserController;
+module.exports = Discount;

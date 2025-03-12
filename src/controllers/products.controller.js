@@ -1,11 +1,10 @@
 const BaseController = require('./base.controllers');
-const Service = require('../services/user.services');
+const Service = require('../services/products.services');
 
-class UserController extends BaseController {
+class ProductController extends BaseController {
     static async getAll(req, res) {
         try {
             const data = await Service.getAll();
-
             return BaseController.successResponse(res, data, 'Get all successfully');
         } catch (error) {
             return BaseController.errorResponse(res, error);
@@ -51,6 +50,7 @@ class UserController extends BaseController {
             return BaseController.errorResponse(res, error);
         }
     };
+
 }
 
-module.exports = UserController;
+module.exports = ProductController;

@@ -1,0 +1,9 @@
+<div class="buy-product-main-left">
+    <img class="main-img" src="<%= product.images[0] %>" alt="<%= product.name %>">
+    
+    <div class="orther-img">
+        <% product.images.forEach(image => { %>
+            <img src="<%= image %>" alt="<%= product.name %>">
+        <% }) %>
+    </div>
+</div>

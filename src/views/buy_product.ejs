@@ -1,0 +1,20 @@
+<%- include('partials/index', { title: 'Buy Product' , cssFileName: 'buy_product' }) %>
+<div class="body">
+    <%- include('partials/buy_product/list_product') %>
+        <div class="buy-product">
+            <div class="buy-product-main">
+                <%- include('partials/buy_product/product_image') %>
+                <%- include('partials/buy_product/product_info') %>
+            </div>
+            <div class="details">
+                <p>Chi tiết sản phẩm</p>
+            </div>
+            <div class="tab-panels">
+                <%- include('partials/buy_product/details') %>
+                <%- include('partials/buy_product/additional_content') %>
+                <%- include('partials/buy_product/related_products') %>
+            </div>
+        </div>
+</div>
+<script src="/js/buy_product.js"></script>
+<%- include('partials/footer') %>

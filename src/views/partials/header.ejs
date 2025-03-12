@@ -1,0 +1,119 @@
+<div class="header">
+    <div class="top-header">
+        <div class="top-header-title"><a href="">Hệ thống showroom</a></div>
+        <div class="top-header-list">
+            <ul>
+                <li><a href="/introduce">Giới thiệu</a></li>
+                <li><a href="News.html">Tin tức</a></li>
+                <li><a href="Q&A.html">Hỏi đáp</a></li>
+                <li><a href="/contact">Liên hệ</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-header" id="myHeader">
+        <div class="logo">
+            <a href="">
+                <img src="/img/logo.png" alt="">
+            </a>
+        </div>
+        <div class="search-box">
+            <input class="box" type="text" value placeholder="Tìm kiếm">
+            <button class="button" type="submit" value=""><i class="fa-solid fa-magnifying-glass"style="color: #ffffff;"></i></button>
+        </div>
+        <div class="hotline">
+            <p>HOTLINE: <span>0981.402.765</span></p>
+            <span>Hỗ trợ 24/7 (nhanh chóng tiện lợi)</span>
+        </div>
+        <div class="cart" id="cartDiv" onclick="toggleCart()">
+            <i class="fa-solid fa-cart-shopping fa-bounce"></i>
+            <span>Giỏ hàng</span>
+        </div>
+        <div id="overlay-cart" class="overlay-cart" onclick="toggleCart()"></div>
+        <div class="search-mobile" id="cartDiv" onclick="document.querySelector('.modal-search').style.display='block'">
+            <a href="#">
+                <i class="fa-solid fa-magnifying-glass fa-xl""></i>
+            </a>
+        </div>
+        <div class="modal-search" >
+            <div class="modal-search-close">
+                <i onclick="document.querySelector('.modal-search').style.display='none'" style="cursor: pointer;" class="fa-solid fa-xmark"></i>
+            </div>
+            <div class="modal-search-inner">
+                <input type="text" placeholder="Tìm kiếm sản phẩm">
+                <button><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </div>
+        <div class="cart-mobile" id="cartDiv" onclick="toggleCartMobile()">
+            <i class="fa-solid fa-cart-shopping"></i>
+        </div>
+        <div id="list-product-cart" class="list-product-cart" onclick="toggleCartMobileMobile()">
+            <div class="title-cart">
+                <h4>Giỏ hàng</h4>
+            </div>
+            <ul>
+                <li><a href="#">Sản phẩm 1</a></li>
+                <li><a href="#">Sản phẩm 2</a></li>
+                <li><a href="#">Sản phẩm 3</a></li>
+                <li><a href="#">Sản phẩm 4</a></li>
+                <li><a href="#">Sản phẩm 5</a></li>
+                <li><a href="#">Sản phẩm 6</a></li>
+                <li><a href="#">Sản phẩm 7</a></li>
+            </ul>
+            <div class="total">
+                <h4>Thành tiền: 279.000 đ</h4>
+            </div>   
+            <div class="payment">
+                <a href="#" class="payment-check">Xem giỏ hàng</a>
+            </div>
+            <div class="payment">
+                <a href="#" class="payment-check">Thanh toán</a>
+            </div>
+        </div>
+        <div id="overlay-cart-mobile" class="overlay" onclick="toggleCartMobile()"></div>
+        <div class="menu-mobile" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars fa-xl"></i>
+        </div>
+        <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
+        <div id="side-menu" class="side-menu" onclick="toggleMenu()">
+            <ul>
+                <li><a href="/">Trang chủ</a></li>
+                <li><a href="/introduce">Giới thiệu</a></li>
+                <li><a href="/products">Sản phẩm</a></li>
+                <li><a href="#">Hệ thống cửa hàng</a></li>
+                <li><a href="#">Tin tức</a></li>
+                <li><a href="#">Dịch vụ</a></li>
+                <li><a href="/contact">Liên hệ</a></li>
+                <li class="close-btn" onclick="toggleMenu()"><a href="#">Đăng xuất</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="menu">
+    <ul>
+        <li>
+            <i class="fa-sharp fa-solid fa-bars" style="color: #f2f4f8;"></i> DANH MỤC SẢN PHẨM
+            <ul>
+                <li><a href=""><i class="fa-sharp fa-solid fa-angle-right" style="color: #07724C;"></i>Kem dưỡng ẩm</a></li>
+                <li><a href=""><i class="fa-sharp fa-solid fa-angle-right" style="color: #07724C;"></i>Sữa rửa mặt</a></li>
+                <li><a href=""><i class="fa-sharp fa-solid fa-angle-right" style="color: #07724C;"></i>Serum Caryophy</a></li>
+                <li><a href=""><i class="fa-sharp fa-solid fa-angle-right" style="color: #07724C;"></i>Toner</a></li>
+                <li><a href=""><i class="fa-sharp fa-solid fa-angle-right" style="color: #07724C;"></i>Kem chống nắng</a></li>
+                <li><a href=""><i class="fa-sharp fa-solid fa-angle-right" style="color: #07724C;"></i>Tẩy trang</a></li>
+                <li><a href=""><i class="fa-sharp fa-solid fa-angle-right" style="color: #07724C;"></i>Tẩy da chết</a></li>
+                <li><a href=""><i class="fa-sharp fa-solid fa-angle-right" style="color: #07724C;"></i>Mặt nạ</a></li>
+                <li><a href=""><i class="fa-sharp fa-solid fa-angle-right" style="color: #07724C;"></i>Dưỡng trắng body</a></li>
+                <li><a href=""><i class="fa-sharp fa-solid fa-angle-right" style="color: #07724C;"></i>Xịt mụn lưng</a></li>
+            </ul>
+        </li>
+        <li><a href="HomePage.html">Trang chủ</a></li>
+        <li><a href="/introduce">Giới thiệu</a></li>
+        <li><a href="/products">Sản phẩm</a></li>
+        <li><a href="">Hệ thống cửa hàng</a></li>
+        <li><a href="News.html">Tin tức</a></li>
+        <li><a href="/contact">Liên hệ</a></li>
+    </ul>
+</div>
+<script src="/js/header.js"></script>
+<div class="gotopbtn">
+    <i class="fa-solid fa-angle-up"></i>
+</div>
