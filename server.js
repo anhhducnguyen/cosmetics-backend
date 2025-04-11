@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const passport = require("./src/config/passport");
-// const session = require("express-session");
 const sessionMiddleware = require('./src/config/session');
 const authRoutes = require('./src/routes/auth.routes');
 const userRoutes = require('./src/routes/user.routes');
@@ -61,39 +60,3 @@ Server running at http://localhost:${port}
 Api docs available at http://localhost:${port}/api-docs
 `)
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const passport = require("./src/config/passport");
-// const session = require("express-session");
-
-// app.use(session({
-//     secret: "your-secret-key",  // Chuỗi bí mật để mã hóa session
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: { 
-//       secure: false, 
-//       httpOnly: true,
-//       // maxAge: 60 * 1000 // 1 phút
-//       maxAge: 24 * 60 * 60 * 1000 // 1 ngày (24 giờ)
-//     } 
-// }));
