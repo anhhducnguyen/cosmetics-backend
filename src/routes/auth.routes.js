@@ -2,6 +2,7 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 const controller = require("../controllers/auth.controllers");
+const checkEmailExist = require("../middlewares/checkEmailExist");
 
 /**
  * @openapi
@@ -24,11 +25,11 @@ const controller = require("../controllers/auth.controllers");
  *               email:
  *                 type: string
  *                 description: Địa chỉ email để đăng ký
- *                 example: user@example.com
+ *                 example: anhnguyen2k373@gmail.com
  *               password:
  *                 type: string
  *                 description: Mật khẩu để đăng ký tài khoản
- *                 example: strongpassword123
+ *                 example: 123
  *     responses:
  *       201:
  *         description: Đăng ký thành công
@@ -61,7 +62,7 @@ const controller = require("../controllers/auth.controllers");
  *                   type: string
  *                   example: Internal server error
  */
-router.post("/register", controller.register);
+router.post("/register", checkEmailExist, controller.register);
 /**
  * @openapi
  * /auth/logout:
@@ -210,11 +211,11 @@ router.post("/reset-password/confirm", controller.confirmResetPassword);
  *             properties:
  *               email:
  *                 type: string
- *                 example: user@example.com
+ *                 example: anhnguyen2k373@gmail.com
  *                 description: Địa chỉ email đã đăng ký
  *               password:
  *                 type: string
- *                 example: yourpassword123
+ *                 example: 123
  *                 description: Mật khẩu tương ứng với email
  *     responses:
  *       200:

@@ -2,13 +2,17 @@ const db = require("../config/database");
 const crypto = require("crypto");
 const transporter = require("../config/email");
 
-module.exports.findUser = async (username) => {
-    return await db("users").where('username', username).first();
+// module.exports.findUser = async (username) => {
+//     return await db("users").where('username', username).first();
+// };
+
+module.exports.findUser = async (email) => {
+    return await db("users").where('email', email).first();
 };
 
-module.exports.createAccount = async (username, hashedPassword) => {
+module.exports.createAccount = async (email, hashedPassword) => {
     return await db("users").insert({
-        username,
+        email,
         password: hashedPassword
       });
 };

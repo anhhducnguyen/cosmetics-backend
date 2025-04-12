@@ -4,14 +4,10 @@ const db = require("../config/database");
 
 module.exports.register = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    existingUser = await Services.findUser(username);
-    if (existingUser) {
-      return res.status(400).json({ message: "Username already exists" });
-    }
+    const { email, password } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await Services.createAccount(username, hashedPassword); 
+    const newUser = await Services.createAccount(email, hashedPassword); 
 
     res.json({ message: "User registered successfully" });
 

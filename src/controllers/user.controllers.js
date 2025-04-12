@@ -24,9 +24,16 @@ class UserController extends BaseController {
 
     static async create(req, res) {
         try {
-            const data = await Service.create(req.body);
+            const { username, email, password } = req.body;
+            const existingUser = await Service.findEmail(email);
+            
+            if (existingUser) {
+                return BaseController.errorResponse(res, 'Email đã tồn tại', 400);
+            }
+            
+            const data = await Service.create({ username, email, password });
 
-            return BaseController.successResponse(res, data, 'Create successfully');
+            return BaseController.successResponse(res, data, 'Create successfully', 201);
         } catch (error) {
             return BaseController.errorResponse(res, error);
         }

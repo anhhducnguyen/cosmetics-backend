@@ -6,22 +6,6 @@ const db = require("./database")
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 require("dotenv").config();
 
-// passport.use(new LocalStrategy(
-//   async function(username, password, done) {
-//     try {
-//       const user = await User.findOne({ username: username });
-//       if (!user) return done(null, false, { message: "User not found" });
-      
-//       const isMatch = await bcrypt.compare(password, user.password);
-//       if (!isMatch) return done(null, false, { message: "Incorrect password" });
-      
-//       return done(null, user);
-//     } catch (err) {
-//       return done(err);
-//     }
-//   }
-// ));
-
 passport.use(new LocalStrategy(
   { usernameField: "email" }, // Sử dụng email thay vì username
   async function (email, password, done) {
@@ -32,6 +16,7 @@ passport.use(new LocalStrategy(
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) return done(null, false, { message: "Incorrect password" });
 
+      // console.log("User logged in (local):", user);
       return done(null, user);
     } catch (err) {
       return done(err);

@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Controller = require('../controllers/user.controllers');
+const { authorize } = require("../middlewares/auth.middlewares");
+const checkUserExistById = require("../middlewares/checkUserExistById");
 
 /**
  * @openapi
@@ -21,7 +23,8 @@ const Controller = require('../controllers/user.controllers');
  *       500:
  *         description: Lỗi máy chủ
  */
-router.get('/', Controller.getAll);
+router.get('/', authorize(["admin"]), Controller.getAll);
+
 
 /**
  * @openapi
@@ -34,6 +37,7 @@ router.get('/', Controller.getAll);
  *       - name: id
  *         in: path
  *         required: true
+ *         example: 20
  *         schema:
  *           type: string
  *         description: ID của người dùng
@@ -49,11 +53,11 @@ router.get('/', Controller.getAll);
  *       500:
  *         description: Lỗi máy chủ
  */
-router.get('/:id', Controller.getById);
+router.get('/:id', authorize(["admin"]), checkUserExistById, Controller.getById);
 
 /**
  * @openapi
- * /users:
+ * /api/v1/users:
  *   post:
  *     tags:
  *       - Users
@@ -63,7 +67,23 @@ router.get('/:id', Controller.getById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/UserInput'
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 example: "user123"
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: "user@example.com"
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 example: "strongpassword"
+ *             required:
+ *               - username
+ *               - email
+ *               - password
  *     responses:
  *       201:
  *         description: Tạo người dùng thành công
@@ -72,6 +92,7 @@ router.get('/:id', Controller.getById);
  *       500:
  *         description: Lỗi máy chủ
  */
+
 router.post('/', Controller.create);
 
 /**
@@ -102,11 +123,11 @@ router.post('/', Controller.create);
  *       500:
  *         description: Lỗi máy chủ
  */
-router.put('/:id', Controller.update);
+router.put('/:id', checkUserExistById, Controller.update);
 
 /**
  * @openapi
- * /users/{id}:
+ * /api/v1/users/{id}:
  *   delete:
  *     tags:
  *       - Users
@@ -126,7 +147,7 @@ router.put('/:id', Controller.update);
  *       500:
  *         description: Lỗi máy chủ
  */
-router.delete('/:id', Controller.delete);
+router.delete('/:id', authorize(["admin"]), checkUserExistById, Controller.delete);
 
 
 module.exports = router;

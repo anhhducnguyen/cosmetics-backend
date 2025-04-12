@@ -1,4 +1,5 @@
 const Joi = require("joi");
+
 module.exports.registerBody = Joi.object({
   email: Joi.string().email({
     minDomainSegments: 2,

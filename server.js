@@ -5,7 +5,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const passport = require("./src/config/passport");
+const session = require("express-session");
 const sessionMiddleware = require('./src/config/session');
+
 const authRoutes = require('./src/routes/auth.routes');
 const userRoutes = require('./src/routes/user.routes');
 const productRoutes = require('./src/routes/products.routes');
@@ -16,10 +18,11 @@ const reviewRoutes = require('./src/routes/reviews.routes');
 const cartRoutes = require('./src/routes/carts.routes');
 const orderdetailRoutes = require('./src/routes/orderdetails.routes');
 const productImageRoutes = require('./src/routes/productimages.routes');
+
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./src/config/swagger-config");
-
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, './src/views')); 
 app.use(express.static("./src/public"));
@@ -32,6 +35,9 @@ app.use(cors({
 }));
 
 app.use(sessionMiddleware);
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/products', productRoutes);
@@ -60,3 +66,13 @@ Server running at http://localhost:${port}
 Api docs available at http://localhost:${port}/api-docs
 `)
 })
+
+
+
+
+
+
+
+
+
+

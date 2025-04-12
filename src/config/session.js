@@ -1,13 +1,14 @@
 const session = require("express-session");
+require("dotenv").config();
 
 const sessionMiddleware = session({
-  secret: "your-secret-key", // Bạn có thể dùng dotenv để bảo mật
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false, // false khi dev (không dùng HTTPS)
+    secure: false, 
     httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000 // 1 ngày
+    maxAge: 24 * 60 * 60 * 1000
   }
 });
 

@@ -4,7 +4,11 @@ const Service = require('../services/products.services');
 class ProductController extends BaseController {
     static async getAll(req, res) {
         try {
-            const data = await Service.getAll();
+            // const data = await Service.getAll();
+            const page = parseInt(req.query.page) || 1;
+            const limit = parseInt(req.query.limit) || 10;
+            
+            const data = await Service.getAll(page, limit);
             return BaseController.successResponse(res, data, 'Get all successfully');
         } catch (error) {
             return BaseController.errorResponse(res, error);
