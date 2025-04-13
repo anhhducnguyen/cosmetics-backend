@@ -36,13 +36,18 @@ class ProductController extends BaseController {
                 price 
             } = req.body;
 
+            const images  = req.files.map(file => file.filename); 
+            console.log("Name image:", images );
+
             const data = await Service.create({ 
                 productName, 
                 productLine, 
                 productVendor, 
                 productDescription, 
                 quantityInstock, 
-                price });
+                price,
+                images  
+            });
 
             return BaseController.successResponse(res, data, 'Create successfully');
         } catch (error) {

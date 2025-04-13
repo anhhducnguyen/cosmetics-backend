@@ -39,16 +39,29 @@ class ProductService {
         productVendor, 
         productDescription, 
         quantityInstock, 
-        price 
-    }) {
-        return db("products").insert({ 
-            productName, 
-            productLine, 
-            productVendor, 
-            productDescription, 
-            quantityInstock, 
-            price 
-        })
+        price,
+        images = [] 
+    }) {    
+        return await db.transaction(async trx => {
+            const [productId] = await trx("products").insert({
+                productName,
+                productLine,
+                productVendor,
+                productDescription,
+                quantityInstock,
+                price
+            });
+    
+            if (images.length > 0) {
+                const imageData = images.map(name => ({
+                    productID: productId,
+                    imageUrl: name
+                }));
+                await trx("productImages").insert(imageData);
+            }
+    
+            return { productId };
+        });
     }
 
     static async update({
