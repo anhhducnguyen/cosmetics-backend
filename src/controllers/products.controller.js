@@ -27,7 +27,22 @@ class ProductController extends BaseController {
 
     static async create(req, res) {
         try {
-            const data = await Service.create(req.body);
+            let { 
+                productName, 
+                productLine, 
+                productVendor, 
+                productDescription, 
+                quantityInstock, 
+                price 
+            } = req.body;
+
+            const data = await Service.create({ 
+                productName, 
+                productLine, 
+                productVendor, 
+                productDescription, 
+                quantityInstock, 
+                price });
 
             return BaseController.successResponse(res, data, 'Create successfully');
         } catch (error) {
@@ -37,7 +52,26 @@ class ProductController extends BaseController {
 
     static async update(req, res) {
         try {
-            const data = await Service.update(req.params.id, req.body);
+            let id = req.params.id;
+            let { 
+                productName, 
+                productLine, 
+                productVendor, 
+                productDescription, 
+                quantityInstock, 
+                price 
+            } = req.body;
+            // const data = await Service.update(req.params.id, req.body);
+           
+            const data = await Service.update({
+                id,
+                productName, 
+                productLine, 
+                productVendor, 
+                productDescription, 
+                quantityInstock, 
+                price 
+            });
 
             return BaseController.successResponse(res, data, 'Update successfully');
         } catch (error) {

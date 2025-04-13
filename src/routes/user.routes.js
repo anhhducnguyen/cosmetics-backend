@@ -90,7 +90,8 @@ router.get('/', Controller.getAll);
  *       500:
  *         description: Lỗi máy chủ
  */
-router.get('/:id', authorize(["admin"]), checkUserExistById, Controller.getById);
+// router.get('/:id', authorize(["admin"]), checkUserExistById, Controller.getById);
+router.get('/:id', checkUserExistById, Controller.getById);
 
 /**
  * @openapi

@@ -25,11 +25,29 @@ class UserController extends BaseController {
 
     static async create(req, res) {
         try {
-            const { name, age, gender, role, username, email, password } = req.body;
+            const { 
+                name, 
+                age, 
+                gender, 
+                role, 
+                username, 
+                email, 
+                password 
+            } = req.body;
+            
             const hashedPassword = await bcrypt.hash(password, 10);
             let avatar = req.fileName;
             
-            const data = await Service.create({ name, age, gender, role, username, email, hashedPassword, avatar });
+            const data = await Service.create({ 
+                name, 
+                age, 
+                gender, 
+                role, 
+                username, 
+                email, 
+                hashedPassword, 
+                avatar 
+            });
 
             return BaseController.successResponse(res, data, 'Create successfully', 201);
         } catch (error) {
@@ -39,7 +57,26 @@ class UserController extends BaseController {
 
     static async update(req, res) {
         try {
-            const data = await Service.update(req.params.id, req.body);
+            let id = req.params.id;
+            
+            const { 
+                name, 
+                age, 
+                gender, 
+                role, 
+                username, 
+                email 
+            } = req.body;
+            
+            const data = await Service.update({ 
+                id, 
+                name, 
+                age, 
+                gender, 
+                role, 
+                username, 
+                email 
+            });
 
             return BaseController.successResponse(res, data, 'Update successfully');
         } catch (error) {
@@ -49,7 +86,8 @@ class UserController extends BaseController {
 
     static async delete(req, res) {
         try {
-            const data = await Service.delete(req.params.id);
+            let id = req.params.id;
+            const data = await Service.delete(id);
 
             return BaseController.successResponse(res, data, 'Delete successfully');
         } catch (error) {

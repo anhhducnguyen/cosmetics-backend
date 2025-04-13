@@ -12,7 +12,16 @@ class UserService {
             .select("*");
     }
 
-    static async create({ name, age, gender, role, username, email, hashedPassword, avatar }) {
+    static async create({ 
+        name, 
+        age, 
+        gender, 
+        role, 
+        username, 
+        email, 
+        hashedPassword, 
+        avatar 
+    }) {
         return db("users").insert({
             username,
             email,
@@ -25,9 +34,30 @@ class UserService {
         })
     }
 
-    static async update(id, data) {
+    // static async update(id, data) {
+    //     return db("users")
+    //         .update(data)
+    //         .where("id", id);
+    // }
+
+    static async update({ 
+        id, 
+        name, 
+        age, 
+        gender, 
+        role, 
+        username, 
+        email }) {
         return db("users")
-            .update(data)
+            .update({ 
+                id, 
+                name, 
+                age, 
+                gender, 
+                role, 
+                username, 
+                email 
+            })
             .where("id", id);
     }
 
