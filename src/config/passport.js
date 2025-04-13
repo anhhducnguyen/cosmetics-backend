@@ -1,16 +1,15 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
-const User = require("../services/users.services"); 
-const db = require("./database")
+const Services = require("../services/auth.services");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 require("dotenv").config();
 
 passport.use(new LocalStrategy(
-  { usernameField: "email" }, // Sử dụng email thay vì username
+  { usernameField: "email" }, 
   async function (email, password, done) {
     try {
-      const user = await User.findOne({ email: email }); // Tìm user theo email
+      const user = await Services.findOne({ email: email }); 
       if (!user) return done(null, false, { message: "User not found" });
 
       const isMatch = await bcrypt.compare(password, user.password);
@@ -24,7 +23,6 @@ passport.use(new LocalStrategy(
   }
 ));
 
-
 passport.use(
   new GoogleStrategy(
     {      
@@ -34,7 +32,7 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        let user = await db("users").where({ google_id: profile.id }).first();
+        let user = await Services.findByGoogleId(profile.id);
 
         if (!user) {
           // Nếu user chưa tồn tại -> Thêm vào database
@@ -45,7 +43,8 @@ passport.use(
             avatar: profile.photos[0].value,
           };
 
-          const [userId] = await db("users").insert(newUser).returning("id");
+          // const [userId] = await db("users").insert(newUser).returning("id");
+          const userId = await Services.createUser(newUser);
           newUser.id = userId;
           return done(null, newUser);
         }
@@ -66,7 +65,7 @@ passport.serializeUser((user, done) => {
 // Deserialize user (lấy thông tin user từ ID)
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await db("users").where({ id }).first();
+    const user = await Services.findById(id);
     done(null, user);
   } catch (err) {
     done(err);

@@ -3,6 +3,43 @@ const router = express.Router();
 const Controller = require('../controllers/user.controllers');
 const { authorize } = require("../middlewares/auth.middlewares");
 const checkUserExistById = require("../middlewares/checkUserExistById");
+const checkEmailExist = require("../middlewares/checkEmailExist");
+const upload = require("../middlewares/upload.single");
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           example: "123"
+ *         username:
+ *           type: string
+ *           example: "user123"
+ *         email:
+ *           type: string
+ *           example: "user@example.com"
+ *         role:
+ *           type: string
+ *           example: "admin"
+ *     UserInput:
+ *       type: object
+ *       properties:
+ *         username:
+ *           type: string
+ *           example: "newuser"
+ *         email:
+ *           type: string
+ *           format: email
+ *           example: "newuser@example.com"
+ *         password:
+ *           type: string
+ *           format: password
+ *           example: "password123"
+ */
 
 /**
  * @openapi
@@ -23,8 +60,8 @@ const checkUserExistById = require("../middlewares/checkUserExistById");
  *       500:
  *         description: Lỗi máy chủ
  */
-router.get('/', authorize(["admin"]), Controller.getAll);
-
+// router.get('/', authorize(["admin"]), Controller.getAll);
+router.get('/', Controller.getAll);
 
 /**
  * @openapi
@@ -37,7 +74,7 @@ router.get('/', authorize(["admin"]), Controller.getAll);
  *       - name: id
  *         in: path
  *         required: true
- *         example: 20
+ *         example: "123"
  *         schema:
  *           type: string
  *         description: ID của người dùng
@@ -65,25 +102,9 @@ router.get('/:id', authorize(["admin"]), checkUserExistById, Controller.getById)
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         application/x-www-form-urlencoded:
  *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *                 example: "user123"
- *               email:
- *                 type: string
- *                 format: email
- *                 example: "user@example.com"
- *               password:
- *                 type: string
- *                 format: password
- *                 example: "strongpassword"
- *             required:
- *               - username
- *               - email
- *               - password
+ *             $ref: '#/components/schemas/UserInput'
  *     responses:
  *       201:
  *         description: Tạo người dùng thành công
@@ -92,12 +113,13 @@ router.get('/:id', authorize(["admin"]), checkUserExistById, Controller.getById)
  *       500:
  *         description: Lỗi máy chủ
  */
+// router.post('/', authorize(["admin"]), checkEmailExist, upload.single("avatar"), Controller.create);
+router.post('/', upload.single("avatar"), checkEmailExist, Controller.create);
 
-router.post('/', Controller.create);
 
 /**
  * @openapi
- * /users/{id}:
+ * /api/v1/users/{id}:
  *   put:
  *     tags:
  *       - Users
@@ -148,6 +170,5 @@ router.put('/:id', checkUserExistById, Controller.update);
  *         description: Lỗi máy chủ
  */
 router.delete('/:id', authorize(["admin"]), checkUserExistById, Controller.delete);
-
 
 module.exports = router;

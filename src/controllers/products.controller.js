@@ -54,7 +54,6 @@ class ProductController extends BaseController {
             return BaseController.errorResponse(res, error);
         }
     };
-
 }
 
 module.exports = ProductController;

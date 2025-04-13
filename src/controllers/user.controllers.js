@@ -1,5 +1,6 @@
 const BaseController = require('./base.controllers');
 const Service = require('../services/user.services');
+const bcrypt = require("bcrypt");
 
 class UserController extends BaseController {
     static async getAll(req, res) {
@@ -24,14 +25,11 @@ class UserController extends BaseController {
 
     static async create(req, res) {
         try {
-            const { username, email, password } = req.body;
-            const existingUser = await Service.findEmail(email);
+            const { name, age, gender, role, username, email, password } = req.body;
+            const hashedPassword = await bcrypt.hash(password, 10);
+            let avatar = req.fileName;
             
-            if (existingUser) {
-                return BaseController.errorResponse(res, 'Email đã tồn tại', 400);
-            }
-            
-            const data = await Service.create({ username, email, password });
+            const data = await Service.create({ name, age, gender, role, username, email, hashedPassword, avatar });
 
             return BaseController.successResponse(res, data, 'Create successfully', 201);
         } catch (error) {

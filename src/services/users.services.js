@@ -32,13 +32,9 @@ module.exports.updateById = async (id, name, email, age, gender) => {
        });
 };
 module.exports.findOne = async (condition) => {
-    // console.log(condition);
-    
     const result =  await db("users")
             .where(condition) 
             .first();
-            // console.log(result);
-            
     return result;
 };
 module.exports.sendResetEmail = async (email, resetLink) => {

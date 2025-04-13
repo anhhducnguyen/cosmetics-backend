@@ -12,11 +12,16 @@ class UserService {
             .select("*");
     }
 
-    static async create({ username, email, password }) {
+    static async create({ name, age, gender, role, username, email, hashedPassword, avatar }) {
         return db("users").insert({
             username,
             email,
-            password
+            password: hashedPassword, 
+            avatar,
+            name, 
+            age, 
+            gender, 
+            role
         })
     }
 
