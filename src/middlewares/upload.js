@@ -9,11 +9,10 @@ const multiStorage = multer.diskStorage({
       const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
       let extension = path.extname(file.originalname);
       let fileName = file.fieldname + "-" + uniqueSuffix + extension;
-    //   req.fileName = fileName;
       cb(null, fileName);
     },
 });
   
-  const uploadMulti = multer({ storage: multiStorage });
+const uploadMulti = multer({ storage: multiStorage });
 
-  module.exports = uploadMulti;
+module.exports = uploadMulti;

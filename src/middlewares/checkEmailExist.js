@@ -5,7 +5,6 @@ const Service = require("../services/user.services");
 const checkEmailExist = async (req, res, next) => {
     const { email } = req.body;
 
-    // Hàm xóa ảnh nếu đã được upload
     const deleteUploadedFile = () => {
         if (req.file && req.file.filename) {
             const filePath = path.join(__dirname, "../public", req.file.filename);

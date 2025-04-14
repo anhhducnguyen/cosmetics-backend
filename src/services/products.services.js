@@ -40,8 +40,8 @@ class ProductService {
         productDescription, 
         quantityInstock, 
         price,
-        images = [] 
-    }) {    
+        images = []
+    }) {
         return await db.transaction(async trx => {
             const [productId] = await trx("products").insert({
                 productName,
@@ -89,7 +89,6 @@ class ProductService {
     static async delete(id) {
         return db("products").delete().where("id", id);
     }
-    
 }
 
 module.exports = ProductService;

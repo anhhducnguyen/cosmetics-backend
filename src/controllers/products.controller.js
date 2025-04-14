@@ -36,7 +36,8 @@ class ProductController extends BaseController {
                 price 
             } = req.body;
 
-            const images  = req.files.map(file => file.filename); 
+            // const images  = req.files.map(file => file.filename); 
+            const images = Array.isArray(req.files) ? req.files.map(file => file.filename) : [];
             console.log("Name image:", images );
 
             const data = await Service.create({ 
@@ -66,7 +67,6 @@ class ProductController extends BaseController {
                 quantityInstock, 
                 price 
             } = req.body;
-            // const data = await Service.update(req.params.id, req.body);
            
             const data = await Service.update({
                 id,
