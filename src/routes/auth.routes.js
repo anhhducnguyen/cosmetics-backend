@@ -2,25 +2,42 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 const controller = require("../controllers/auth.controllers");
-const checkEmailExist = require("../middlewares/checkEmailExist");
-const { registerBody } = require("../middlewares/validate-schema");
+const { checkEmailExist } = require("../middlewares/checkEmailExist");
+const { registerUserSchema } = require("../middlewares/validate-schema");
 const validateRequest = require("../middlewares/validateRequest");
 
-router.post("/register", validateRequest(registerBody), checkEmailExist, controller.register);
+router.post(
+  "/register", 
+  validateRequest(registerUserSchema), 
+  checkEmailExist, 
+  controller.register
+);
 router.post("/logout", controller.logout);
-router.post("/reset-password", validateRequest(registerBody), controller.resetPassword);
+router.post(
+  "/reset-password", 
+  validateRequest(registerUserSchema), 
+  controller.resetPassword
+);
 router.post("/reset-password/confirm", controller.confirmResetPassword);
-router.post("/login", passport.authenticate("local", {
+router.post("/login", 
+  passport.authenticate("local", {
     successRedirect: "/auth/success",
     failureRedirect: "/auth/fail"
-}));  
+  })
+);  
 router.get("/success", (req, res) => {
   res.json({ message: "Login successful", user: req.user });
 });
 router.get("/fail", (req, res) => {
   res.status(401).json({ message: "Login failed" });
 });  
-router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+router.get(
+  "/google", 
+  passport.authenticate(
+    "google", 
+    { scope: ["profile", "email"] }
+  )
+);
 router.get(
     "/google/callback",
     passport.authenticate("google", { failureRedirect: "/auth/fail" }),

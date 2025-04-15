@@ -4,11 +4,9 @@ const Service = require('../services/products.services');
 class ProductController extends BaseController {
     static async getAll(req, res) {
         try {
-            // const data = await Service.getAll();
-            const page = parseInt(req.query.page) || 1;
-            const limit = parseInt(req.query.limit) || 10;
-            
-            const data = await Service.getAll(page, limit);
+            const options = req.query;
+            console.log(options); 
+            const data = await Service.getAll(options);
             return BaseController.successResponse(res, data, 'Get all successfully');
         } catch (error) {
             return BaseController.errorResponse(res, error);
@@ -17,7 +15,8 @@ class ProductController extends BaseController {
 
     static async getById(req, res) {
         try {
-            const data = await Service.getById(req.params.id);
+            let id = req.params.id;
+            const data = await Service.getById(id);
 
             return BaseController.successResponse(res, data, 'Get one successfully');
         } catch (error) {
@@ -86,7 +85,8 @@ class ProductController extends BaseController {
 
     static async delete(req, res) {
         try {
-            const data = await Service.delete(req.params.id);
+            let id = req.params.id;
+            const data = await Service.delete(id);
 
             return BaseController.successResponse(res, data, 'Delete successfully');
         } catch (error) {

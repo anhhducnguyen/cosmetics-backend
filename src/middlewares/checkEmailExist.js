@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const Service = require("../services/user.services");
 
-const checkEmailExist = async (req, res, next) => {
+module.exports.checkEmailExist = async (req, res, next) => {
     const { email } = req.body;
 
     const deleteUploadedFile = () => {
@@ -37,4 +37,4 @@ const checkEmailExist = async (req, res, next) => {
     }
 };
 
-module.exports = checkEmailExist;
+// module.exports = checkEmailExist;

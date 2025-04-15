@@ -14,7 +14,8 @@ class ProductLineController extends BaseController {
 
     static async getById(req, res) {
         try {
-            const data = await Service.getById(req.params.id);
+            let id = req.params.id;
+            const data = await Service.getById(id);
 
             return BaseController.successResponse(res, data, 'Get one successfully');
         } catch (error) {

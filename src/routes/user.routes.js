@@ -3,14 +3,43 @@ const router = express.Router();
 const Controller = require('../controllers/user.controllers');
 const { authorize } = require("../middlewares/auth.middlewares");
 const checkUserExistById = require("../middlewares/checkUserExistById");
-const checkEmailExist = require("../middlewares/checkEmailExist");
+const { checkEmailExist } = require("../middlewares/checkEmailExist");
 const upload = require("../middlewares/upload.single");
+const { createUserSchema  } = require("../middlewares/validate-schema");
+const validateRequest = require("../middlewares/validateRequest");
 
-router.get('/', authorize(["admin"]), Controller.getAll);
-router.get('/:id', authorize(["admin"]), checkUserExistById, Controller.getById);
-router.post('/', authorize(["admin"]), upload.single("avatar"), checkEmailExist, Controller.create);
-router.put('/:id', authorize(["admin"]), checkUserExistById, Controller.update);
-router.delete('/:id', authorize(["admin"]), checkUserExistById, Controller.delete);
+router.get(
+    '/', 
+    authorize(["admin", "seller"]), 
+    Controller.getAll
+);
+router.get(
+    '/:id', 
+    authorize(["admin", "seller"]), 
+    checkUserExistById, 
+    Controller.getById
+);
+router.post(
+    '/', 
+    authorize(["admin"]),
+    validateRequest(createUserSchema), 
+    upload.single("avatar"), 
+    checkEmailExist, 
+    Controller.create
+);
+
+router.put(
+    '/:id', 
+    authorize(["admin"]), 
+    checkUserExistById, 
+    Controller.update
+);
+router.delete(
+    '/:id', 
+    authorize(["admin"]), 
+    checkUserExistById, 
+    Controller.delete
+);
 
 module.exports = router;
 

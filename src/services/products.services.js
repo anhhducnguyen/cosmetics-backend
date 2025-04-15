@@ -1,5 +1,5 @@
 const db = require('../config/database');
-const groupProducts = require('../middlewares/groupProducts');
+const groupProducts = require('../utils/groupProducts');
 
 const queryProducts = async (id = null) => {
     let query = db('products as p')
@@ -22,10 +22,99 @@ const queryProducts = async (id = null) => {
 };
 
 class ProductService {
-    static async getAll() {
-        const products = await queryProducts();
-        return groupProducts(products);
-    }  
+    // static async getAll() {
+    //     const products = await queryProducts();
+    //     return groupProducts(products);
+    // }  
+    static async getAll({
+        sortBy = 'id',
+        sortOrder = 'asc',
+        page = 1,
+        limit = 10,
+        minPrice,
+        maxPrice
+    } = {}) {
+        // Biểu thức giá sau giảm
+        const discountedPriceExpr = 'ROUND(p.price * (1 - COALESCE(d.discountPercentage, 0) / 100), 0)';
+    
+        page = parseInt(page) || 1;
+        limit = parseInt(limit) || 10;
+        minPrice = minPrice !== undefined ? parseFloat(minPrice) : undefined;
+        maxPrice = maxPrice !== undefined ? parseFloat(maxPrice) : undefined;
+    
+        const offset = (page - 1) * limit;
+    
+        // Query chính (không nhóm sản phẩm)
+        let query = db('products as p')
+            .leftJoin('productImages as pi', 'p.id', 'pi.productID')
+            .leftJoin('discounts as d', 'p.id', 'd.productID')
+            .select(
+                'p.id',
+                'p.productName',
+                'p.productDescription',
+                'p.productVendor',
+                'p.price',
+                'pi.imageUrl',
+                'd.startDate',
+                'd.endDate',
+                db.raw('COALESCE(d.discountPercentage, 0) AS discountPercentage'),
+                db.raw(`${discountedPriceExpr} AS discountedPrice`)
+            );
+    
+        // Lọc theo giá sau giảm
+        if (minPrice !== undefined && maxPrice !== undefined) {
+            query.whereRaw(`${discountedPriceExpr} BETWEEN ? AND ?`, [minPrice, maxPrice]);
+        } else if (minPrice !== undefined) {
+            query.whereRaw(`${discountedPriceExpr} >= ?`, [minPrice]);
+        } else if (maxPrice !== undefined) {
+            query.whereRaw(`${discountedPriceExpr} <= ?`, [maxPrice]);
+        }
+    
+        const validSortColumns = ['id', 'productName', 'price', 'discountedPrice'];
+        if (sortBy === 'discountedPrice') {
+            query.orderByRaw(`${discountedPriceExpr} ${sortOrder}`);
+        } else if (validSortColumns.includes(sortBy)) {
+            // Nếu sortBy là productName, phải dùng alias 'p.productName'
+            query.orderBy(`p.${sortBy}`, sortOrder);  // 'p' là alias của bảng products
+        } else {
+            query.orderBy('p.id', 'desc');
+        }
+        
+        
+        console.log(query.toString());
+        query.limit(limit * 2).offset(offset); // Lấy nhiều hơn một chút để có đủ sản phẩm sau khi nhóm
+``
+        // Truy vấn dữ liệu
+        const products = await query;
+    
+        // Nhóm sản phẩm
+        const groupedProducts = groupProducts(products);
+        // Truy vấn đếm số sản phẩm duy nhất
+        let countQuery = db('products as p')
+            .leftJoin('discounts as d', 'p.id', 'd.productID')
+            .modify((qb) => {
+                if (minPrice !== undefined && maxPrice !== undefined) {
+                    qb.whereRaw(`${discountedPriceExpr} BETWEEN ? AND ?`, [minPrice, maxPrice]);
+                } else if (minPrice !== undefined) {
+                    qb.whereRaw(`${discountedPriceExpr} >= ?`, [minPrice]);
+                } else if (maxPrice !== undefined) {
+                    qb.whereRaw(`${discountedPriceExpr} <= ?`, [maxPrice]);
+                }
+            })
+            .countDistinct('p.id as count');
+    
+        const [{ count }] = await countQuery;
+    
+        return {
+            products: groupedProducts.slice(0, limit), // Lấy đúng số lượng sản phẩm sau khi nhóm
+            pagination: {
+                total: Number(count),
+                page,
+                limit,
+                totalPages: Math.ceil(count / limit)
+            }
+        };
+    }
     
     static async getById(id) {
         const product = await queryProducts(id);
@@ -109,68 +198,3 @@ module.exports = ProductService;
 
 
 
-
-
-
-
-// static async getAll(page = 1, limit = 10) {
-    //     const offset = (page - 1) * limit;
-    
-    //     const productIds = await db('products')
-    //         .select('id')
-    //         .orderBy('id')
-    //         .limit(limit)
-    //         .offset(offset);
-    
-    //     if (productIds.length === 0) return { products: [], pagination: { page, limit, totalCount: 0, totalPages: 0 } };
-    
-    //     const products = await db('products as p')
-    //         .whereIn('p.id', productIds.map(p => p.id))
-    //         .join('productImages as pi', 'p.id', 'pi.productID')
-    //         .leftJoin('discounts as d', 'p.id', 'd.productID')
-    //         .select(
-    //             'p.*',
-    //             'pi.imageUrl',
-    //             'd.startDate',
-    //             'd.endDate',
-    //             db.raw('COALESCE(d.discountPercentage, 0) AS discountPercentage'),
-    //             db.raw('ROUND(p.price * (1 - COALESCE(d.discountPercentage, 0) / 100), 0) AS discountedPrice')
-    //         );
-    
-    //     const total = await db('products').count('id as count').first();
-    //     const totalCount = parseInt(total.count);
-    //     const totalPages = Math.ceil(totalCount / limit);
-    
-    //     const groupedProducts = _(products)
-    //         .groupBy('id')
-    //         .map((items) => {
-    //             const firstItem = items[0];
-    //             return {
-    //                 id: firstItem.id,
-    //                 productName: firstItem.productName,
-    //                 productLine: firstItem.productLine,
-    //                 productVendor: firstItem.productVendor,
-    //                 productDescription: firstItem.productDescription,
-    //                 quantityInstock: firstItem.quantityInstock,
-    //                 price: Number(firstItem.price),
-    //                 createdAt: firstItem.createdAt,
-    //                 updatedAt: firstItem.updatedAt,
-    //                 startDate: firstItem.startDate,
-    //                 endDate: firstItem.endDate,
-    //                 discountPercentage: Number(firstItem.discountPercentage),
-    //                 discountedPrice: Number(firstItem.discountedPrice),
-    //                 imageUrls: items.map((item) => item.imageUrl)
-    //             };
-    //         })
-    //         .value();
-    
-    //     return {
-    //         products: groupedProducts,
-    //         pagination: {
-    //             page,
-    //             limit,
-    //             totalCount,
-    //             totalPages
-    //         }
-    //     };
-    // }
