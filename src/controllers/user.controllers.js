@@ -5,13 +5,35 @@ const bcrypt = require("bcrypt");
 class UserController extends BaseController {
     static async getAll(req, res) {
         try {
-            const data = await Service.getAll();
+            const { page = 1, limit = 10, sortBy = 'id', sortOrder = 'asc' } = req.query;
 
-            return BaseController.successResponse(res, data, 'Get all successfully');
+            const data = await Service.getAll({
+                page: parseInt(page), 
+                limit: parseInt(limit), 
+                sortBy, 
+                sortOrder
+            });
+
+            const [{ count }] = await Service.getCount();
+
+            return BaseController.successResponse(
+                res,
+                data,
+                'Get all successfully',
+                200,
+                {
+                    pagination: {
+                        total: count,
+                        page: parseInt(page),
+                        limit: parseInt(limit),
+                        totalPages: Math.ceil(count / limit)
+                    }
+                }
+            );
         } catch (error) {
             return BaseController.errorResponse(res, error);
         }
-    };
+    }
 
     static async getById(req, res) {
         try {
@@ -25,6 +47,7 @@ class UserController extends BaseController {
 
     static async create(req, res) {
         try {
+            // console.log(req.body);
             const { 
                 name, 
                 age, 
@@ -37,6 +60,7 @@ class UserController extends BaseController {
             
             const hashedPassword = await bcrypt.hash(password, 10);
             let avatar = req.fileName;
+            console.log(avatar);
             
             const data = await Service.create({ 
                 name, 
@@ -58,6 +82,8 @@ class UserController extends BaseController {
     static async update(req, res) {
         try {
             let id = req.params.id;
+            let avatar = req.fileName;
+            console.log(avatar);
             
             const { 
                 name, 
@@ -75,7 +101,8 @@ class UserController extends BaseController {
                 gender, 
                 role, 
                 username, 
-                email 
+                email,
+                avatar 
             });
 
             return BaseController.successResponse(res, data, 'Update successfully');

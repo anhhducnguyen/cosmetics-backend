@@ -6,13 +6,15 @@
  **/
 
 class BaseController {
-    static successResponse(res, data, message = "Success", statusCode = 200) {
+    static successResponse(res, data, message = "Success", statusCode = 200, extra = {}) {
         return res.status(statusCode).json({
             success: true,
             message,
-            data
+            data,
+            ...extra // Cho phép đính kèm pagination hoặc metadata khác
         });
     }
+    
 
     static errorResponse(res, error, message = "Server error", statusCode = 500) {
         console.error(error);

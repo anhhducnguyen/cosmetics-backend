@@ -7,8 +7,6 @@ const validateRequest = require("../middlewares/validateRequest");
 const queryHandler = require("../middlewares/queryHandler");
 const authorize = require("../middlewares/auth.middlewares");
 
-
-
 router.get(
     '/', 
     // authorize(["admin", "seller", "customer"]), 

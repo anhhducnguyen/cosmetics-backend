@@ -123,7 +123,7 @@ module.exports.createUserSchema = Joi.object({
     }),
 
   role: Joi.string()
-    .valid('admin', 'user', 'moderator')
+    .valid('admin', 'seller', 'customer')
     .required()
     .messages({
       'any.only': 'Vai trò phải là "admin", "user" hoặc "moderator".',

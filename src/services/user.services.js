@@ -1,9 +1,25 @@
 const db = require('../config/database');
 
 class UserService {
-    static async getAll() {
+
+    // static async getAll() {
+    //     return db("users")
+    //         .select("*");
+    // }
+
+    static async getAll({ page = 1, limit = 10, sortBy = 'id', sortOrder = 'asc' }) {
+        const offset = (page - 1) * limit;  // Tính toán offset cho phân trang
+
         return db("users")
-            .select("*");
+            .select("*")
+            .orderBy(sortBy, sortOrder)  
+            .limit(limit)  
+            .offset(offset);  
+    }
+
+    static async getCount() {
+        return db("users")
+            .countDistinct('id as count');  // Đếm số lượng bản ghi trong bảng
     }
 
     static async getById(id) {
@@ -30,15 +46,9 @@ class UserService {
             name, 
             age, 
             gender, 
-            role
+            role,
         })
     }
-
-    // static async update(id, data) {
-    //     return db("users")
-    //         .update(data)
-    //         .where("id", id);
-    // }
 
     static async update({ 
         id, 
@@ -47,7 +57,9 @@ class UserService {
         gender, 
         role, 
         username, 
-        email }) {
+        email,
+        avatar 
+    }) {
         return db("users")
             .update({ 
                 id, 
@@ -56,7 +68,8 @@ class UserService {
                 gender, 
                 role, 
                 username, 
-                email 
+                email,
+                avatar 
             })
             .where("id", id);
     }
