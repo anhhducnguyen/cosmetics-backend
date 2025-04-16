@@ -20,15 +20,15 @@ router.get(
 );
 router.post(
     "/", 
-    // authorize(["admin", "seller"]), 
+    authorize(["admin", "seller"]), 
     // validateRequest(createProductSchema), 
     uploadMulti.array("photoList", 3), 
     Controller.create,
 );
 router.put(
     '/:id', 
-    // authorize(["admin", "seller"]), 
-    validateRequest(createProductSchema),
+    authorize(["admin", "seller"]), 
+    // validateRequest(createProductSchema),
     Controller.update
 );
 router.delete(
