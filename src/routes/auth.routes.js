@@ -164,7 +164,7 @@ router.post("/logout", controller.logout);
  *       - Authentication
  *     summary: Gửi link đặt lại mật khẩu qua email
  *     description: Người dùng nhập email để nhận link đặt lại mật khẩu.
- *     multipart/form-data:
+ *     requestBody:
  *       required: true
  *       content:
  *         application/json:
@@ -203,9 +203,59 @@ router.post("/logout", controller.logout);
  */
 router.post(
   "/reset-password", 
-  validateRequest(registerUserSchema), 
+  // validateRequest(registerUserSchema), 
   controller.resetPassword
 );
+/**
+ * @openapi
+ * /auth/reset-password/confirm:
+ *   post:
+ *     tags:
+ *       - Authentication
+ *     summary: Xác nhận và cập nhật mật khẩu mới
+ *     description: Người dùng nhập token và mật khẩu mới để hoàn tất quá trình đặt lại.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - token
+ *               - newPassword
+ *             properties:
+ *               token:
+ *                 type: string
+ *                 description: Token được gửi qua email
+ *                 example: abc123xyz
+ *               newPassword:
+ *                 type: string
+ *                 description: Mật khẩu mới
+ *                 example: NewSecurePassword123
+ *     responses:
+ *       200:
+ *         description: Đặt lại mật khẩu thành công
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Mật khẩu đã được đặt lại thành công
+ *       400:
+ *         description: Token không hợp lệ hoặc đã hết hạn
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Token không hợp lệ hoặc đã hết hạn
+ *       500:
+ *         description: Lỗi máy chủ
+ */
 router.post("/reset-password/confirm", controller.confirmResetPassword);
 router.get("/success", (req, res) => {
   res.json({ message: "Login successful", user: req.user });

@@ -11,10 +11,21 @@ class UserService {
         const offset = (page - 1) * limit;  // Tính toán offset cho phân trang
 
         return db("users")
-            .select("*")
-            .orderBy(sortBy, sortOrder)  
-            .limit(limit)  
-            .offset(offset);  
+            .select(
+                "id",
+                "name",
+                "email",
+                "age",
+                "gender",
+                "username",
+                "role",
+                "google_id",
+                "avatar"
+            )
+            .orderBy(sortBy, sortOrder)
+            .limit(limit)
+            .offset(offset);
+ 
     }
 
     static async getCount() {

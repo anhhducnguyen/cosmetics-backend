@@ -7,21 +7,23 @@ const { checkEmailExist } = require("../middlewares/checkEmailExist");
 const upload = require("../middlewares/upload.single");
 const { createUserSchema  } = require("../middlewares/validate-schema");
 const validateRequest = require("../middlewares/validateRequest");
+const verifyToken = require('../middlewares/verifyToken');
 
 router.get(
     '/', 
-    // authorize(["admin", "seller"]), 
+    authorize(["admin", "seller"]), 
+    verifyToken,
     Controller.getAll
 );
 router.get(
     '/:id', 
-    // authorize(["admin", "seller"]), 
+    authorize(["admin", "seller"]), 
     checkUserExistById, 
     Controller.getById
 );
 router.post(
     '/', 
-    // authorize(["admin"]),
+    authorize(["admin"]),
     // validateRequest(createUserSchema), 
     upload.single("avatar"), 
     checkEmailExist, 
@@ -30,7 +32,7 @@ router.post(
 
 router.put(
     '/:id', 
-    // authorize(["admin"]), 
+    authorize(["admin"]), 
     upload.single("avatar"),
     checkUserExistById, 
     Controller.update
@@ -58,6 +60,8 @@ module.exports = router;
  *   get:
  *     summary: Lấy danh sách người dùng
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: page
