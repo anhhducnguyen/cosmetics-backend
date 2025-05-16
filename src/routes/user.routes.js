@@ -60,8 +60,6 @@ module.exports = router;
  *   get:
  *     summary: Lấy danh sách người dùng
  *     tags: [Users]
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: page
